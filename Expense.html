@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="Expense_style.css">
+<link rel="stylesheet" href="expense_results.css">
+<link href="https://fonts.googleapis.com/css2?family=Cabin+Sketch:wght@700&display=swap" rel="stylesheet">
+<title>FINSIGHT - Expense Calculator</title>
+<style>
+.action-btn {
+  background: none;
+  border: 1.5px solid rgba(141,15,214,0.2);
+  border-radius: 8px;
+  padding: 4px 8px;
+  cursor: pointer;
+  font-size: 13px;
+  transition: background 0.2s, border-color 0.2s;
+  line-height: 1;
+}
+.action-btn:hover { background: rgb(237,233,255); border-color: rgb(141,15,214); }
+.action-btn.delete-btn:hover { background: #fee2e2; border-color: #dc2626; }
+</style>
+<script>
+// Instant auth check — before page renders
+  if (!JSON.parse(localStorage.getItem("finsightUser") || "null")?.loggedIn) {
+    window.location.replace("login.html");
+  }
+</script>
+</head>
+<body>
+
+<!-- TOAST -->
+<div id="toast" class="toast"></div>
+
+<!-- MOBILE PARTIAL DROPDOWN (below navbar, purple, not full screen) -->
+<div class="mobile-nav-overlay" id="mobileOverlay">
+  <a href="index.html">Home</a>
+  <a href="index.html#tools">Tools</a>
+  <a href="index.html#about">About</a>
+  <a href="index.html#contact">Contact</a>
+  <!-- shown when logged out -->
+  <a href="login.html" class="mob-login-btn" id="mobLoginLink">Login</a>
+  <!-- shown when logged in -->
+  <div id="mobAvatarBox" style="display:none; flex-direction:column; align-items:center; gap:12px;">
+    <div class="mob-avatar" id="mobAvatarLetter"></div>
+    <button class="mob-logout-btn" onclick="logout()">Logout</button>
+  </div>
+</div>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="logo">
+    <img src="logo.png" alt="FINSIGHT">
+  </div>
+
+  <div class="hamburger" id="hamburger">
+    <div></div><div></div><div></div>
+  </div>
+
+  <ul class="nav-links" id="navLinks">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="index.html#tools">Tools</a></li>
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
+    <li id="nav-user">
+      <a href="login.html" class="login-btn" id="loginBtn">Login</a>
+      <div id="avatarBox">
+        <div id="avatarLetter" onclick="toggleMenu()"></div>
+        <div id="logoutMenu">
+          <button onclick="logout()">Logout</button>
+        </div>
+      </div>
+    </li>
+  </ul>
+</nav>
+
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <p class="section-tag">Expense Calculator</p>
+  <h1>Where Is Your Money Going?</h1>
+  <p>Enter your monthly expenses below and see your full spending breakdown instantly.</p>
+</section>
+
+<!-- MAIN FORM -->
+<div class="main-content">
+  <form class="expense-form" method="get" action="#">
+
+    <div class="income-row">
+      <label for="month">📅 Select Month</label>
+      <input type="month" id="month">
+    </div>
+    <div class="income-row">
+      <label for="income">💼 Monthly Income (₹)</label>
+      <input type="number" id="income" name="income" placeholder="e.g. 50000" min="0">
+    </div>
+
+    <h3 class="section-sub">Enter Your Monthly Expenses</h3>
+
+    <div class="expense-table">
+      <div class="expense-row"><span class="exp-icon">🏠</span><label for="rent">Rent / Housing</label><input type="number" id="rent" name="rent" placeholder="₹0" min="0"></div>
+      <div class="expense-row"><span class="exp-icon">🍽️</span><label for="food">Food &amp; Groceries</label><input type="number" id="food" name="food" placeholder="₹0" min="0"></div>
+      <div class="expense-row"><span class="exp-icon">🚗</span><label for="transport">Transport</label><input type="number" id="transport" name="transport" placeholder="₹0" min="0"></div>
+      <div class="expense-row"><span class="exp-icon">💡</span><label for="bills">Electricity &amp; Bills</label><input type="number" id="bills" name="bills" placeholder="₹0" min="0"></div>
+      <div class="expense-row"><span class="exp-icon">🏥</span><label for="health">Health &amp; Medical</label><input type="number" id="health" name="health" placeholder="₹0" min="0"></div>
+      <div class="expense-row"><span class="exp-icon">🎓</span><label for="education">Education</label><input type="number" id="education" name="education" placeholder="₹0" min="0"></div>
+      <div class="expense-row"><span class="exp-icon">🎬</span><label for="entertainment">Entertainment</label><input type="number" id="entertainment" name="entertainment" placeholder="₹0" min="0"></div>
+      <div class="expense-row"><span class="exp-icon">👗</span><label for="shopping">Clothing &amp; Shopping</label><input type="number" id="shopping" name="shopping" placeholder="₹0" min="0"></div>
+      <div class="expense-row"><span class="exp-icon">📱</span><label for="phone">Phone &amp; Internet</label><input type="number" id="phone" name="phone" placeholder="₹0" min="0"></div>
+      <div class="expense-row"><span class="exp-icon">💳</span><label for="emi">EMI / Loan Payment</label><input type="number" id="emi" name="emi" placeholder="₹0" min="0"></div>
+      <div class="expense-row"><span class="exp-icon">✈️</span><label for="travel">Travel &amp; Vacation</label><input type="number" id="travel" name="travel" placeholder="₹0" min="0"></div>
+      <div class="expense-row"><span class="exp-icon">📦</span><label for="other">Other Expenses</label><input type="number" id="other" name="other" placeholder="₹0" min="0"></div>
+    </div>
+
+    <div class="btn-row">
+      <button type="submit" class="btn-calculate">Calculate &amp; Analyse</button>
+      <button type="reset" class="btn-reset">Reset</button>
+    </div>
+
+  </form>
+</div>
+
+<!-- RESULTS SECTION -->
+<div id="results-section" style="display:none;">
+
+  <div class="results-wrapper">
+    <div class="results-heading">
+      <span class="section-tag" style="color:rgb(141,15,214)">Analysis</span>
+      <h2>Your Monthly Summary</h2>
+    </div>
+    <div id="summary-cards" class="summary-cards"></div>
+  </div>
+
+  <div class="results-wrapper">
+    <div class="results-heading">
+      <span class="section-tag" style="color:rgb(141,15,214)">Breakdown</span>
+      <h2>Spending by Category</h2>
+      <p class="results-sub">Colour turns red when a category exceeds its recommended limit.</p>
+    </div>
+    <div class="table-wrap">
+      <table class="breakdown-table">
+        <thead>
+          <tr>
+            <th>Category</th>
+            <th>Amount</th>
+            <th>% of Income</th>
+            <th>Recommended</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="breakdown-table-body"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div id="history-section" class="results-wrapper" style="display:none;">
+    <div class="results-heading">
+      <span class="section-tag" style="color:rgb(141,15,214)">History</span>
+      <h2>Month-by-Month Comparison</h2>
+      <p class="results-sub">Your saved months. Click 📂 to reload a month into the form, 🗑️ to delete it.</p>
+    </div>
+    <div class="table-wrap">
+      <table class="breakdown-table">
+        <thead>
+          <tr>
+            <th>Month</th>
+            <th>Income</th>
+            <th>Total Expenses</th>
+            <th>Savings / Deficit</th>
+            <th>Expense %</th>
+            <th>Savings %</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="history-body"></tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<script>
+window.addEventListener("DOMContentLoaded", () => {
+  const user            = JSON.parse(localStorage.getItem("finsightUser"));
+  const loginBtn        = document.getElementById("loginBtn");
+  const avatarBox       = document.getElementById("avatarBox");
+  const avatarLetter    = document.getElementById("avatarLetter");
+  const mobLoginLink    = document.getElementById("mobLoginLink");
+  const mobAvatarBox    = document.getElementById("mobAvatarBox");
+  const mobAvatarLetter = document.getElementById("mobAvatarLetter");
+
+  loginBtn.style.display     = "block";
+  avatarBox.style.display    = "none";
+  mobLoginLink.style.display = "block";
+  mobAvatarBox.style.display = "none";
+
+  if (user && user.loggedIn === true) {
+    loginBtn.style.display     = "none";
+    avatarBox.style.display    = "flex";
+    avatarLetter.textContent   = user.avatar;
+    mobLoginLink.style.display = "none";
+    mobAvatarBox.style.display = "flex";
+    mobAvatarLetter.textContent = user.avatar;
+  }
+});
+
+function logout() {
+  localStorage.removeItem("finsightUser");
+  window.location.href = "login.html";
+}
+
+function toggleMenu() {
+  const menu = document.getElementById("logoutMenu");
+  menu.style.display = menu.style.display === "block" ? "none" : "block";
+}
+
+  
+</script>
+<script src="expense.js"></script>
+</body>
+</html>

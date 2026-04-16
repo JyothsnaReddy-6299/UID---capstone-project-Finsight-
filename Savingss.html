@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="Savingsstylee.css">
+<link rel="stylesheet" href="savings_results.css">
+<link href="https://fonts.googleapis.com/css2?family=Cabin+Sketch:wght@700&display=swap" rel="stylesheet">
+<title>FINSIGHT - Savings Planner</title>
+<style>
+/* ── Required Monthly Banner ── */
+.required-monthly-banner {
+display: none;
+align-items: flex-start;
+gap: 12px;
+background: rgb(237,233,255);
+border: 1.5px solid rgba(141,15,214,0.3);
+border-radius: 14px;
+padding: 14px 18px;
+margin-bottom: 22px;
+font-size: 14px;
+color: rgb(60,10,100);
+line-height: 1.5;
+}
+.required-monthly-banner span { font-size: 20px; flex-shrink: 0; margin-top: 2px; }
+.banner-note { color: #8888aa; font-size: 12px; margin-left: 4px; }
+
+/* ── Action buttons (edit/delete in table) ── */
+.action-btn {
+background: none;
+border: 1.5px solid rgba(141,15,214,0.2);
+border-radius: 8px;
+padding: 4px 8px;
+cursor: pointer;
+font-size: 13px;
+transition: background 0.2s, border-color 0.2s;
+line-height: 1;
+}
+.action-btn:hover { background: rgb(237,233,255); border-color: rgb(141,15,214); }
+.delete-btn:hover { background: #fee2e2; border-color: #dc2626; }
+</style>
+<script>
+// Instant auth check — before page renders
+  if (!JSON.parse(localStorage.getItem("finsightUser") || "null")?.loggedIn) {
+    window.location.replace("login.html");
+  }</script>
+</head>
+<body>
+
+<div id="toast" class="toast"></div>
+
+<nav class="navbar">
+<div class="logo"><img src="logo.png" alt="FINSIGHT"></div>
+<ul>
+<li><a href="index.html">Home</a></li>
+<li><a href="index.html#tools">Tools</a></li>
+<li><a href="index.html#about">About</a></li>
+<li><a href="index.html#contact">Contact</a></li>
+<li id="nav-user">
+<a href="login.html" class="login-btn" id="loginBtn">Login</a>
+<div id="avatarBox">
+<div id="avatarLetter" onclick="toggleMenu()"></div>
+<div id="logoutMenu"><button onclick="logout()">Logout</button></div>
+</div>
+</li>
+</ul>
+</nav>
+
+<section class="page-hero">
+<p class="section-tag">Savings Planner</p>
+<h1>Plan Your Savings, Track Real Progress</h1>
+<p>Set your goal once. Log actual income and expenses each month. The plan adapts to real life — not just assumptions.</p>
+</section>
+
+<div class="main-content">
+
+<button
+type="button"
+id="go-to-step2-btn"
+class="btn-reset"
+style="display:none; margin-bottom:16px;"
+onclick="goToExistingPlan()"
+>Continue to Step 2 →</button>
+
+<div class="form-card" id="goal-setup-card">
+<div class="form-card-header">
+<span class="step-badge">Step 1</span>
+<h3>Set Your Savings Goal</h3>
+<p>Define what you're saving for and how long you have.</p>
+</div>
+
+<form id="goal-form">
+<div class="input-group">
+<label for="goal-name">🎯 What Are You Saving For?</label>
+<input type="text" id="goal-name" placeholder="e.g. New laptop, Vacation, Emergency fund">
+</div>
+<div class="two-col">
+<div class="input-group">
+<label for="goal-amount">💰 Target Amount (₹)</label>
+<input type="number" id="goal-amount" placeholder="e.g. 100000" min="0">
+</div>
+<div class="input-group">
+<label for="goal-months">📅 Goal Duration (Months)</label>
+<input type="number" id="goal-months" placeholder="e.g. 12" min="1" max="120">
+</div>
+</div>
+<div class="input-group">
+<label for="current-savings">🏦 Current Savings Already Have (₹)</label>
+<input type="number" id="current-savings" placeholder="e.g. 10000" min="0">
+<p class="input-hint">How much have you already saved toward this goal?</p>
+</div>
+<div class="input-group">
+<label for="investment">📈 How Will You Grow Your Money?</label>
+<select id="investment">
+<option value="0">No Investment (0%)</option>
+<option value="3.5">Savings Account (3.5% p.a.)</option>
+<option value="6.5">Fixed Deposit (6.5% p.a.)</option>
+<option value="8">Recurring Deposit (8% p.a.)</option>
+<option value="10" selected>Mutual Funds / SIP (10% p.a.)</option>
+<option value="12">High Return Portfolio (12% p.a.)</option>
+</select>
+<p class="input-hint">Choose how your monthly savings will grow with compound interest.</p>
+</div>
+<div class="btn-row">
+<button type="submit" class="btn-calculate">Create My Plan →</button>
+</div>
+</form>
+</div>
+
+<div class="form-card" id="monthly-log-card" style="display:none;">
+<div class="form-card-header">
+<button type="button" class="btn-reset" onclick="goToStep1()">← Back</button>
+<span class="step-badge">Step 2</span>
+<h3>Log This Month's Finances</h3>
+<p id="log-prompt-text">Enter your actual income and expenses for each month.</p>
+</div>
+
+<div class="goal-pill" id="goal-pill"></div>
+
+<div class="required-monthly-banner" id="required-monthly-banner"></div>
+
+<form id="log-form">
+<div class="two-col">
+<div class="input-group">
+<label for="log-month">📅 Month</label>
+<input type="month" id="log-month">
+</div>
+<div class="input-group">
+<label for="log-income">💼 Actual Income (₹)</label>
+<input type="number" id="log-income" placeholder="e.g. 52000" min="0">
+</div>
+</div>
+
+<div class="form-divider">Monthly Expenses</div>
+
+<div class="input-group">
+<label for="total-expense">💸 Total Monthly Expenses (₹)</label>
+<input type="number" id="total-expense" placeholder="Enter total expenses" min="0">
+</div>
+
+<div class="live-total-bar">
+<div>
+<span class="live-label">Total Expenses</span>
+<span class="live-value" id="live-expense-total">₹0</span>
+</div>
+<div>
+<span class="live-label">Surplus / Deficit</span>
+<span class="live-value" id="live-surplus">₹0</span>
+</div>
+<div>
+<span class="live-label">Going to Savings</span>
+<span class="live-value positive" id="live-savings-contrib">₹0</span>
+</div>
+</div>
+
+<div class="btn-row">
+<button type="submit" class="btn-calculate">Log This Month</button>
+<button type="button" class="btn-reset" onclick="resetGoal()">Change Goal</button>
+</div>
+</form>
+</div>
+
+</div><div id="results-section" style="display:none;">
+
+<div class="results-wrapper" id="goal-progress-section"></div>
+
+<div class="results-wrapper">
+<div class="results-heading">
+<span class="section-tag" style="color:rgb(141,15,214)">Overview</span>
+<h2>Your Savings Summary</h2>
+</div>
+<div id="summary-cards" class="summary-cards"></div>
+</div>
+
+<div class="results-wrapper" id="history-section" style="display:none;">
+<div class="results-heading">
+<span class="section-tag" style="color:rgb(141,15,214)">History</span>
+<h2>Month-by-Month Log</h2>
+<p class="results-sub">Your actual income, expenses and savings each month. Use ✏️ to edit or 🗑️ to delete.</p>
+</div>
+<div class="table-wrap">
+<table class="breakdown-table">
+<thead>
+<tr>
+<th>Month</th>
+<th>Income</th>
+<th>Expenses</th>
+<th>Surplus</th>
+<th>Contributed</th>
+<th>Interest</th>
+<th>Balance</th>
+<th>Progress</th>
+<th>Actions</th>
+</tr>
+</thead>
+<tbody id="history-body"></tbody>
+</table>
+</div>
+</div>
+
+<div class="results-wrapper" id="projection-section" style="display:none;">
+<div class="results-heading">
+<span class="section-tag" style="color:rgb(141,15,214)">Projection</span>
+<h2>Remaining Months Forecast</h2>
+<p class="results-sub" id="projection-sub"></p>
+</div>
+<div class="table-wrap">
+<table class="breakdown-table">
+<thead>
+<tr>
+<th>Month</th>
+<th>Est. Contribution</th>
+<th>Interest</th>
+<th>Projected Balance</th>
+<th>Progress to Goal</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody id="projection-body"></tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+<script>
+// ── AUTH ──
+window.addEventListener("DOMContentLoaded", () => {
+const user = JSON.parse(localStorage.getItem("finsightUser"));
+const loginBtn = document.getElementById("loginBtn");
+const avatarBox = document.getElementById("avatarBox");
+const avatarLetter = document.getElementById("avatarLetter");
+loginBtn.style.display = "block";
+avatarBox.style.display = "none";
+if (user && user.loggedIn === true) {
+loginBtn.style.display = "none";
+avatarBox.style.display = "flex";
+avatarLetter.textContent = user.avatar;
+}
+// Wire live totals
+document.getElementById("log-income").addEventListener("input", updateLiveTotals);
+document.getElementById("total-expense").addEventListener("input", updateLiveTotals);
+loadState();
+});
+
+function logout() { localStorage.removeItem("finsightUser"); window.location.href = "login.html"; }
+function toggleMenu() {
+const menu = document.getElementById("logoutMenu");
+menu.style.display = menu.style.display === "block" ? "none" : "block";
+}
+
+  
+
+</script>
+<script src="savingss.js"></script>
+</body>
+</html>

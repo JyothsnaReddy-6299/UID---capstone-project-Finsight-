@@ -1,0 +1,200 @@
+/* =========================================
+   FINSIGHT - emi_results.css
+   Styles for JS-generated EMI results
+========================================= */
+
+/* ── RESULTS WRAPPER ── */
+.results-wrapper {
+  max-width: 1100px;
+  margin: 0 auto 40px auto;
+  padding: 0 5%;
+}
+.results-heading { margin-bottom: 22px; }
+.results-heading h2 {
+  font-size: 28px; color: #1e2a38;
+  font-family: Cambria, Georgia, serif; margin-bottom: 6px;
+}
+.results-sub { font-size: 14px; color: #5f6b7a; }
+
+/* ── EMI HERO ── */
+.emi-hero {
+  background: rgb(141,15,214);
+  border-radius: 20px;
+  padding: 36px 40px;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+.emi-hero-left { }
+.emi-hero-label { font-size: 13px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; opacity: 0.75; margin-bottom: 8px; }
+.emi-hero-amount { font-size: 52px; font-weight: 700; font-family: Cambria, Georgia, serif; line-height: 1; }
+.emi-hero-sub { font-size: 14px; opacity: 0.8; margin-top: 8px; }
+.emi-hero-right { display: flex; gap: 28px; flex-wrap: wrap; }
+.emi-stat { text-align: center; }
+.emi-stat-label { font-size: 12px; opacity: 0.7; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+.emi-stat-value { font-size: 22px; font-weight: 700; }
+.emi-stat-value.accent { color: rgba(255,220,255,1); }
+
+/* ── SUMMARY CARDS ── */
+.summary-cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+.sum-card {
+  background: white; border-radius: 18px; padding: 22px 18px;
+  text-align: center;
+  border: 1px solid rgba(141,15,214,0.12);
+  box-shadow: 0 4px 16px rgba(141,15,214,0.07);
+  transition: transform 0.2s;
+}
+.sum-card:hover    { transform: translateY(-4px); }
+.sum-card.negative { border-color: rgba(220,38,38,0.3); background: #fff1f1; }
+.sum-card.positive { border-color: rgba(22,163,74,0.3); background: #f0fdf4; }
+.sum-card.accent   { border-color: rgba(141,15,214,0.4); background: rgb(237,233,255); }
+.sum-icon  { font-size: 26px; margin-bottom: 8px; }
+.sum-label { font-size: 12px; color: #5f6b7a; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+.sum-value { font-size: 20px; font-weight: 700; color: #1e2a38; }
+.sum-sub   { font-size: 12px; color: #5f6b7a; margin-top: 4px; }
+
+/* ── DONUT CHART ── */
+.chart-row {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+.donut-wrap {
+  display: flex; flex-direction: column; align-items: center; gap: 20px;
+  flex-shrink: 0;
+}
+#donut-svg { width: 220px; height: 220px; }
+.donut-legend { display: flex; flex-direction: column; gap: 10px; }
+.legend-item { display: flex; align-items: center; gap: 10px; font-size: 14px; color: #1e2a38; }
+.legend-dot  { width: 14px; height: 14px; border-radius: 3px; flex-shrink: 0; }
+.legend-item strong { margin-left: auto; font-size: 15px; color: rgb(141,15,214); min-width: 40px; text-align: right; }
+
+.chart-stats {
+  flex: 1; min-width: 220px;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 14px;
+}
+.stat-box {
+  background: white; border-radius: 14px; padding: 18px 16px;
+  border: 1px solid rgba(141,15,214,0.1);
+  box-shadow: 0 2px 10px rgba(141,15,214,0.06);
+}
+.stat-box-label { font-size: 12px; color: #5f6b7a; font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px; margin-bottom: 8px; }
+.stat-box-value { font-size: 18px; font-weight: 700; color: #1e2a38; }
+.stat-box-sub   { font-size: 12px; color: #8888aa; margin-top: 3px; }
+
+/* ── PREPAYMENT CARDS ── */
+.prepayment-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+.prep-card {
+  border-radius: 18px; padding: 26px 24px;
+  border: 1px solid rgba(141,15,214,0.12);
+  background: white;
+  box-shadow: 0 4px 16px rgba(141,15,214,0.07);
+}
+.prep-card.highlight { background: rgb(237,233,255); border-color: rgba(141,15,214,0.35); }
+.prep-card-title { font-size: 15px; font-weight: 700; color: #1e2a38; margin-bottom: 18px; padding-bottom: 12px; border-bottom: 1px solid rgba(141,15,214,0.1); }
+.prep-row { display: flex; justify-content: space-between; font-size: 14px; padding: 6px 0; border-bottom: 0.5px solid rgba(141,15,214,0.06); }
+.prep-row:last-child { border-bottom: none; }
+.prep-row span  { color: #5f6b7a; }
+.prep-row strong { color: #1e2a38; }
+.prep-row strong.save { color: #16a34a; }
+.prep-row strong.accent { color: rgb(141,15,214); }
+
+/* ── INSIGHTS ── */
+.two-col-insights {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
+}
+.insight-box {
+  background: white; border-radius: 18px; padding: 28px 24px;
+  border: 1px solid rgba(141,15,214,0.12);
+  box-shadow: 0 4px 16px rgba(141,15,214,0.07);
+}
+.insight-box h3 { font-size: 16px; color: #1e2a38; font-family: Cambria, Georgia, serif; margin-bottom: 16px; }
+.insight-item, .suggest-item {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 12px 14px; border-radius: 12px; margin-bottom: 10px;
+  font-size: 14px; line-height: 1.5;
+}
+.insight-item span, .suggest-item span { font-size: 18px; flex-shrink: 0; }
+.insight-good   { background: #f0fdf4; border-left: 4px solid #16a34a; color: #14532d; }
+.insight-warn   { background: #fffbeb; border-left: 4px solid #d97706; color: #78350f; }
+.insight-danger { background: #fff1f1; border-left: 4px solid #dc2626; color: #7f1d1d; }
+.suggest-item   { background: rgb(237,233,255); border-left: 4px solid rgb(141,15,214); color: #3b1278; }
+
+/* ── YEAR FILTER ── */
+.year-filter {
+  display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px;
+}
+.year-btn {
+  padding: 6px 16px; border-radius: 20px; font-size: 12px; font-weight: 700;
+  border: 1.5px solid rgba(141,15,214,0.25);
+  background: ghostwhite; color: #1e2a38; cursor: pointer;
+  transition: all 0.15s; font-family: Arial, Helvetica, sans-serif;
+}
+.year-btn:hover  { border-color: rgb(141,15,214); background: rgb(237,233,255); color: rgb(100,10,160); }
+.year-btn.active { background: rgb(141,15,214); color: white; border-color: rgb(141,15,214); }
+
+/* ── AMORTISATION TABLE ── */
+.table-wrap {
+  overflow-x: auto; border-radius: 18px;
+  box-shadow: 0 4px 20px rgba(141,15,214,0.08);
+}
+.breakdown-table {
+  width: 100%; border-collapse: collapse;
+  background: white; border-radius: 18px; overflow: hidden; font-size: 14px;
+}
+.breakdown-table thead th {
+  background: rgb(141,15,214); color: white;
+  padding: 14px 16px; text-align: left;
+  font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;
+}
+.breakdown-table tbody tr { border-bottom: 1px solid rgba(141,15,214,0.06); transition: background 0.15s; }
+.breakdown-table tbody tr:last-child { border-bottom: none; }
+.breakdown-table tbody tr:hover { background: rgb(250,248,255); }
+.breakdown-table tbody tr.year-start td { border-top: 2px solid rgba(141,15,214,0.2); }
+.breakdown-table td { padding: 11px 16px; color: #1e2a38; vertical-align: middle; }
+.breakdown-table td.pos  { color: #16a34a; font-weight: 600; }
+.breakdown-table td.neg  { color: #dc2626; font-weight: 600; }
+.breakdown-table td.muted { color: #8888aa; }
+.pct-cell { display: flex; align-items: center; gap: 10px; min-width: 120px; }
+.bar-wrap  { flex: 1; height: 6px; background: #f0eaff; border-radius: 10px; overflow: hidden; }
+.bar-fill  { height: 100%; background: rgb(141,15,214); border-radius: 10px; transition: width 0.4s ease; }
+
+/* ── TABLE FOOTER (totals) ── */
+.table-footer {
+  background: rgb(237,233,255); border-radius: 14px;
+  padding: 16px 20px; margin-top: 16px;
+  display: flex; flex-wrap: wrap; gap: 24px;
+  font-size: 14px; color: rgb(60,10,100);
+}
+.table-footer strong { color: rgb(141,15,214); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  .summary-cards { grid-template-columns: repeat(2,1fr); }
+  .two-col-insights { grid-template-columns: 1fr; }
+  .prepayment-cards { grid-template-columns: 1fr; }
+  .chart-row { flex-direction: column; align-items: flex-start; }
+  .chart-stats { grid-template-columns: 1fr 1fr; width: 100%; }
+}
+@media (max-width: 600px) {
+  .summary-cards { grid-template-columns: 1fr 1fr; }
+  .emi-hero { flex-direction: column; padding: 28px 22px; }
+  .emi-hero-amount { font-size: 38px; }
+  .results-heading h2 { font-size: 22px; }
+  .chart-stats { grid-template-columns: 1fr; }
+}
+@media (max-width: 400px) {
+  .summary-cards { grid-template-columns: 1fr; }
+}

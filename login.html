@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FINSIGHT - Login</title>
+  <link rel="stylesheet" href="loginStyle.css">
+</head>
+<body>
+
+<!-- ════════════════════════════════
+     NAVBAR
+     ════════════════════════════════ -->
+<nav class="navbar">
+  <div class="logo-img">
+    <img src="logo.png" alt="FINSIGHT">
+  </div>
+
+  <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+
+  <ul class="nav-links" id="navLinks">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="index.html#tools">Tools</a></li>
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
+    <li><a href="login.html" class="login-btn">Login</a></li>
+  </ul>
+</nav>
+
+<!-- ════════════════════════════════
+     LOGIN / SIGNUP PAGE
+     ════════════════════════════════ -->
+<div id="login-page">
+  <div class="container">
+
+    <!-- LEFT: Illustration -->
+    <div class="image">
+      <img src="login-bg.png" alt="Finance Illustration">
+      
+    </div>
+
+    <!-- RIGHT: Card -->
+    <div class="card">
+
+      <!-- Tabs -->
+      <div class="tabs">
+        <button class="tab-btn active" onclick="showLogin(this)">Login</button>
+        <button class="tab-btn"        onclick="showSignup(this)">Sign Up</button>
+      </div>
+
+      <!-- LOGIN FORM -->
+      <div id="login-form">
+        <h2>Welcome Back</h2>
+        <p class="form-sub">Login to your FINSIGHT account</p>
+
+        <div class="divider"><p>login with email</p></div>
+
+        <form id="loginForm" onsubmit="handleLogin(event)">
+          <div class="form-group">
+            <label for="login-email">Email address</label>
+            <input type="email" id="login-email" placeholder="you@example.com" required autocomplete="email">
+          </div>
+
+          <div class="form-group">
+            <label for="login-password">Password</label>
+            <div class="input-wrap">
+              <input type="password" id="login-password" placeholder="Enter your password" required>
+              <span class="toggle-pw" onclick="togglePw('login-password', this)">👁</span>
+            </div>
+          </div>
+
+          <div class="options">
+            <label><input type="checkbox"> Remember me</label>
+            <a href="#" class="forgot">Forgot password?</a>
+          </div>
+
+          <button type="submit" class="submit-btn">Login →</button>
+        </form>
+
+        <p class="switch-text">Don't have an account? <a href="#" onclick="showSignup()">Sign up free</a></p>
+      </div>
+
+      <!-- SIGNUP FORM -->
+      <div id="signup-form" style="display:none;">
+        <h2>Create Account</h2>
+        <p class="form-sub">Join FINSIGHT — it's free forever</p>
+
+        <div class="divider"><span>sign up with email</span></div>
+
+        <form id="signupForm" onsubmit="handleSignup(event)">
+          <div class="form-group">
+            <label for="signup-name">Full name</label>
+            <input type="text" id="signup-name" placeholder="Your full name" required>
+          </div>
+
+          <div class="form-group">
+            <label for="signup-email">Email address</label>
+            <input type="email" id="signup-email" placeholder="you@example.com" required>
+          </div>
+
+          <div class="form-group">
+            <label for="signup-password">Password</label>
+            <div class="input-wrap">
+              <input type="password" id="signup-password" placeholder="Create a password" oninput="updateStrength(this.value)" required>
+              <span class="toggle-pw" onclick="togglePw('signup-password', this)">👁</span>
+            </div>
+          </div>
+
+          <div class="strength-bar">
+            <div class="strength-seg" id="s1"></div>
+            <div class="strength-seg" id="s2"></div>
+            <div class="strength-seg" id="s3"></div>
+            <div class="strength-seg" id="s4"></div>
+          </div>
+
+          <div class="form-group">
+            <label for="signup-confirm">Confirm password</label>
+            <div class="input-wrap">
+              <input type="password" id="signup-confirm" placeholder="Repeat your password" required>
+              <span class="toggle-pw" onclick="togglePw('signup-confirm', this)">👁</span>
+            </div>
+          </div>
+
+          <button type="submit" class="submit-btn">Create Account →</button>
+        </form>
+
+        <p class="switch-text">Already have an account? <a href="#" onclick="showLogin()">Login here</a></p>
+      </div>
+
+    </div><!-- /card -->
+  </div><!-- /container -->
+</div><!-- /login-page -->
+
+
+
+<script src="login.js"></script>
+</body>
+</html>

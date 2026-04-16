@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="index_style.css">
+<link href="https://fonts.googleapis.com/css2?family=Cabin+Sketch:wght@700&display=swap" rel="stylesheet">
+<title>FINSIGHT - Home</title>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+<div class="logo-img">
+<img src="logo.png" alt="FINSIGHT">
+</div>
+<div class="menu-toggle" onclick="toggleNav()">☰</div>
+<ul id="navLinks">
+<li><a href="index.html">Home</a></li>
+<li><a href="#tools">Tools</a></li>
+<li><a href="#about">About</a></li>
+<li><a href="#contact">Contact</a></li>
+<li id="nav-user">
+  <a href="login.html" class="login-btn" id="loginBtn">Login</a>
+  <div id="avatarBox">
+  <div id="avatarLetter" onclick="toggleMenu()"></div>
+  <div id="logoutMenu">
+    <button onclick="logout()">Logout</button>
+  </div>
+</div>
+</li>
+</ul>
+</nav>
+
+<!-- HERO SECTION -->
+<section class="hero">
+  <div class="hero-text">
+    <p class="hero-badge">Free financial tools for everyone</p>
+    <h1>Smarter Financial Decisions Start Here</h1>
+    <p>Turn complex money decisions into simple, smart actions.
+    Track expenses, calculate emi's, plan savings — all in one place.</p>
+    
+    <div class="hero-buttons">
+      <a href="#tools" class="button-primary">Explore Tools</a>
+      <a href="#about" class="button-secondary">How it Works</a>
+    </div>
+  </div>
+
+  <div class="hero-image">
+    <img src="home-bg.png" alt="Finance Illustration">
+  </div>
+</section>
+
+<!-- STATS BAR -->
+<div class="stats-bar">
+<div class="stat-item reveal reveal-delay-1">
+<strong>3</strong>
+<span>Free Tools</span>
+</div>
+<div class="stat-item reveal reveal-delay-2">
+<strong>100%</strong>
+<span>Free Forever</span>
+</div>
+<div class="stat-item reveal reveal-delay-3">
+<strong>User friendly</strong>
+<span>So simple</span>
+</div>
+</div>
+
+<!-- HOW IT WORKS SECTION -->
+<section class="how-it-works">
+<p class="section-tag reveal">How It Works</p>
+<h2 class="reveal">Three Steps to Financial Clarity</h2>
+<p class="section-desc reveal">No sign-up required. Just pick a tool, enter your numbers, and get instant insight.</p>
+
+<div class="steps-grid">
+<div class="step-card reveal reveal-delay-1">
+<div class="step-number">1</div>
+<h3>Choose a Tool</h3>
+<p>Pick from our free collection — expense calculator, tax estimator, savings planner, and more.</p>
+</div>
+<div class="step-card reveal reveal-delay-2">
+<div class="step-number">2</div>
+<h3>Enter Your Numbers</h3>
+<p>Fill in your income, expenses, or savings goals. Everything is calculated instantly in your browser.</p>
+</div>
+<div class="step-card reveal reveal-delay-3">
+<div class="step-number">3</div>
+<h3>Get Clear Insights</h3>
+<p>Understand exactly where you stand and what to do next — no jargon, no complexity.</p>
+</div>
+</div>
+</section>
+
+<!-- ABOUT / VIDEO SECTION -->
+<section class="page-2" id="about">
+<div class="video reveal-left">
+<video autoplay muted loop playsinline>
+<source src="intro.mp4" type="video/mp4">
+</video>
+</div>
+<div class="intro reveal-right">
+<p class="section-tag" style="text-align:left;">Why FINSIGHT</p>
+<h2>Understand Your Finances Better</h2>
+<p>
+Our platform provides simple yet powerful tools to analyze expenses,
+estimate taxes, and plan savings. Whether you're managing personal
+finances or planning future investments, our tools help you make
+smarter financial decisions.
+</p>
+<ul class="feature-list">
+<li>Instant calculations — no waiting</li>
+<li>Works without an account</li>
+<li>Built for Indian tax rules and currency</li>
+<li>Clean, distraction-free interface</li>
+</ul>
+</div>
+</section>
+
+<!-- TOOLS SECTION -->
+<section class="tools" id="tools">
+<p class="section-tag reveal">Our Tools</p>
+<h2 class="reveal">Build Better Financial Habits</h2>
+<p class="section-desc reveal">Every tool is free, instant, and works right in your browser.</p>
+
+<div class="grid">
+<div class="card reveal reveal-delay-1">
+<div class="card-icon">💰</div>
+<h3>Expense Calculator</h3>
+<p>Break down your monthly spending by category and instantly see where your money is going.</p>
+<a href="expense.html" class="card-btn">Calculate</a>
+</div>
+<div class="card reveal reveal-delay-2">
+<div class="card-icon">🎯</div>
+<h3>EMI calculator</h3>
+<p>calculate the amount you have to pay every month in just few simple steps</p>
+<a href="emi.html" class="card-btn">Plan</a>
+</div>
+<div class="card reveal reveal-delay-3">
+<div class="card-icon">💰</div>
+<h3>Savings planner</h3>
+<p>Set your goal once. Log actual income and expenses each month. The plan adapts to real life — not just assumptions.</p>
+<a href="Savingss.html" class="card-btn">Calculate</a>
+</div>
+</div>
+</section>
+
+<!-- CTA BANNER SECTION -->
+<div class="cta-banner reveal">
+<div class="cta-text">
+<h2>Ready to Take Control of Your Finances?</h2>
+<p>It's free, instant, and no sign-up needed. Start right now.</p>
+</div>
+<a href="#tools" class="button-white">Get Started — It's Free</a>
+</div>
+
+<!-- FOOTER -->
+<footer id="contact">
+<div class="footer-top">
+<div class="footer-brand reveal">
+<img src="logo.png" alt="FINSIGHT" class="footer-logo">
+<p>Simple, powerful financial tools for everyday people. Free forever.</p>
+</div>
+<div class="footer-col reveal reveal-delay-1">
+<h4>Tools</h4>
+<ul>
+<li><a href="expense.html">Expense Calculator</a></li>
+<li><a href="emi.html">EMI calculator</a></li>
+<li><a href="Savingss.html">Savings Planner</a></li>
+</ul>
+</div>
+<div class="footer-col reveal reveal-delay-2">
+<h4>Pages</h4>
+<ul>
+<li><a href="index.html">Home</a></li>
+<li><a href="login.html">Login</a></li>
+<li><a href="#about">About</a></li>
+</ul>
+</div>
+<div class="footer-col reveal reveal-delay-3">
+<h4>Contact</h4>
+<ul>
+<li><a href="mailto:hello@finsight.in">hello@finsight.in</a></li>
+<li><a href="https://github.com/JyothsnaReddy-6299" target="_blank">Instagram</a></li>
+<li><a href="https://github.com/JyothsnaReddy-6299" target="_blank">LinkedIn</a></li>
+<li><a href="https://github.com/JyothsnaReddy-6299" target="_blank">Twitter / X</a></li>
+</ul>
+</div>
+</div>
+<div class="footer-bottom">
+<span>© 2025 FINSIGHT. All rights reserved.</span>
+<span>Made for financial clarity.</span>
+</div>
+</footer>
+
+<script>
+window.addEventListener("DOMContentLoaded", () => {
+const user = JSON.parse(localStorage.getItem("finsightUser"));
+
+  const loginBtn = document.getElementById("loginBtn");
+  const avatarBox = document.getElementById("avatarBox");
+  const avatarLetter = document.getElementById("avatarLetter");
+
+  loginBtn.style.display = "block";
+  avatarBox.style.display = "none";
+
+  if (user && user.loggedIn === true) {
+    loginBtn.style.display = "none";
+    avatarBox.style.display = "flex";
+    avatarLetter.textContent = user.avatar;
+  }
+});
+
+function logout() {
+  localStorage.removeItem("finsightUser");
+  window.location.href = "login.html";
+}
+
+function toggleMenu() {
+  const menu = document.getElementById("logoutMenu");
+  menu.style.display = menu.style.display === "block" ? "none" : "block";
+}
+
+function toggleNav() {
+  const nav = document.getElementById("navLinks");
+  nav.classList.toggle("active");
+}
+
+// Close nav when any link is clicked
+document.querySelectorAll("#navLinks a").forEach(link => {
+  link.addEventListener("click", () => {
+    document.getElementById("navLinks").classList.remove("active");
+  });
+});const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+else {
+      entry.target.classList.remove('visible'); // 👈 add this line
+    }
+  });
+}, { threshold: 0.15 });
+
+document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => {
+  observer.observe(el);
+});
+</script>
+
+</body>
+</html>

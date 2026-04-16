@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="emi_style.css">
+<link rel="stylesheet" href="emi_results.css">
+<link href="https://fonts.googleapis.com/css2?family=Cabin+Sketch:wght@700&display=swap" rel="stylesheet">
+<title>FINSIGHT - EMI Calculator</title>
+</head>
+<script>
+// Instant auth check — before page renders
+  if (!JSON.parse(localStorage.getItem("finsightUser") || "null")?.loggedIn) {
+    window.location.replace("login.html");
+  }
+</script>
+<body>
+
+<div id="toast" class="toast"></div>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="logo"><img src="logo.png" alt="FINSIGHT"></div>
+  <div class="hamburger" id="hamburger"><div></div><div></div><div></div></div>
+  <ul id="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="index.html#tools">Tools</a></li>
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
+    <li id="nav-user">
+      <a href="login.html" class="login-btn" id="loginBtn">Login</a>
+      <div id="avatarBox">
+        <div id="avatarLetter" onclick="toggleMenu()"></div>
+        <div id="logoutMenu"><button onclick="logout()">Logout</button></div>
+      </div>
+    </li>
+  </ul>
+</nav>
+
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <p class="section-tag">EMI Calculator</p>
+  <h1>Know Your Loan Before You Sign</h1>
+  <p>Calculate your exact monthly EMI, see how much interest you'll really pay, and get a full repayment breakdown — before committing to any loan.</p>
+</section>
+
+<!-- MAIN CONTENT -->
+<div class="main-content">
+  <div class="form-card">
+    <div class="form-card-header">
+      <h3>Loan Details</h3>
+      <p>Enter your loan parameters to calculate the EMI and full repayment schedule.</p>
+    </div>
+
+    <form id="emi-form">
+
+      <!-- LOAN TYPE PILLS -->
+      <div class="input-group">
+        <label>🏷️ Loan Type</label>
+        <div class="loan-type-pills">
+          <button type="button" class="pill-btn active" data-rate="8.5"  data-label="Home Loan">🏠 Home Loan</button>
+          <button type="button" class="pill-btn"        data-rate="10.5" data-label="Car Loan">🚗 Car Loan</button>
+          <button type="button" class="pill-btn"        data-rate="12"   data-label="Personal Loan">👤 Personal Loan</button>
+          <button type="button" class="pill-btn"        data-rate="14"   data-label="Education Loan">🎓 Education Loan</button>
+          <button type="button" class="pill-btn"        data-rate="0"    data-label="Custom">⚙️ Custom</button>
+        </div>
+        <p class="input-hint">Select a loan type to auto-fill the typical interest rate, or choose Custom to enter manually.</p>
+      </div>
+
+      <div class="three-col">
+        <!-- LOAN AMOUNT -->
+        <div class="input-group">
+          <label for="loan-amount">💰 Loan Amount (₹)</label>
+          <input type="number" id="loan-amount" placeholder="e.g. 2000000" min="1000">
+          <div class="range-wrap">
+            <input type="range" id="loan-amount-range" min="10000" max="10000000" step="10000" value="2000000">
+            <div class="range-labels"><span>₹10K</span><span>₹1Cr</span></div>
+          </div>
+        </div>
+
+        <!-- INTEREST RATE -->
+        <div class="input-group">
+          <label for="interest-rate">📈 Interest Rate (% p.a.)</label>
+          <input type="number" id="interest-rate" placeholder="e.g. 8.5" min="0.1" max="36" step="0.1" value="8.5">
+          <div class="range-wrap">
+            <input type="range" id="interest-rate-range" min="1" max="36" step="0.1" value="8.5">
+            <div class="range-labels"><span>1%</span><span>36%</span></div>
+          </div>
+        </div>
+
+        <!-- TENURE -->
+        <div class="input-group">
+          <label for="tenure">📅 Loan Tenure</label>
+          <div class="tenure-wrap">
+            <input type="number" id="tenure" placeholder="e.g. 20" min="1" max="360">
+            <select id="tenure-type">
+              <option value="years" selected>Years</option>
+              <option value="months">Months</option>
+            </select>
+          </div>
+          <div class="range-wrap">
+            <input type="range" id="tenure-range" min="1" max="30" step="1" value="20">
+            <div class="range-labels"><span>1 yr</span><span>30 yrs</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PREPAYMENT (optional) -->
+      <div class="section-divider">Optional: Extra Payments</div>
+      <div class="two-col">
+        <div class="input-group">
+          <label for="prepayment">💸 Monthly Prepayment (₹)</label>
+          <input type="number" id="prepayment" placeholder="e.g. 5000 (optional)" min="0">
+          <p class="input-hint">Any extra amount you pay each month above the EMI. Reduces tenure and interest.</p>
+        </div>
+        <div class="input-group">
+          <label for="start-date">📆 Loan Start Date</label>
+          <input type="month" id="start-date">
+          <p class="input-hint">Used to generate actual month names in the amortisation schedule.</p>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button type="submit" class="btn-calculate">Calculate EMI →</button>
+        <button type="button" class="btn-reset" onclick="resetForm()">Reset</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- RESULTS -->
+<div id="results-section" style="display:none;">
+
+  <!-- EMI HERO CARD -->
+  <div class="results-wrapper" id="emi-hero-section"></div>
+
+  <!-- SUMMARY CARDS -->
+  <div class="results-wrapper">
+    <div class="results-heading">
+      <span class="section-tag" style="color:rgb(141,15,214)">Breakdown</span>
+      <h2>Loan Cost Breakdown</h2>
+    </div>
+    <div id="summary-cards" class="summary-cards"></div>
+  </div>
+
+  <!-- DONUT CHART -->
+  <div class="results-wrapper">
+    <div class="results-heading">
+      <span class="section-tag" style="color:rgb(141,15,214)">Visualisation</span>
+      <h2>Principal vs Interest</h2>
+      <p class="results-sub">See what fraction of your total repayment goes to the bank vs the actual loan.</p>
+    </div>
+    <div class="chart-row">
+      <div class="donut-wrap">
+        <svg id="donut-svg" viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg">
+          <circle id="donut-bg"        cx="110" cy="110" r="80" fill="none" stroke="#f0eaff" stroke-width="32"/>
+          <circle id="donut-interest"  cx="110" cy="110" r="80" fill="none" stroke="rgb(141,15,214)" stroke-width="32" stroke-dasharray="0 502.65" stroke-linecap="butt" transform="rotate(-90 110 110)" style="transition:stroke-dasharray 0.8s ease"/>
+          <circle id="donut-principal" cx="110" cy="110" r="80" fill="none" stroke="rgb(200,160,255)" stroke-width="32" stroke-dasharray="0 502.65" stroke-linecap="butt" transform="rotate(-90 110 110)" style="transition:stroke-dasharray 0.8s ease"/>
+          <text id="donut-center-label" x="110" y="104" text-anchor="middle" font-size="11" fill="#8888aa" font-family="Arial">Monthly EMI</text>
+          <text id="donut-center-value" x="110" y="126" text-anchor="middle" font-size="18" font-weight="700" fill="rgb(141,15,214)" font-family="Arial"></text>
+        </svg>
+        <div class="donut-legend">
+          <div class="legend-item"><span class="legend-dot" style="background:rgb(141,15,214)"></span><span>Interest</span><strong id="legend-interest-pct"></strong></div>
+          <div class="legend-item"><span class="legend-dot" style="background:rgb(200,160,255)"></span><span>Principal</span><strong id="legend-principal-pct"></strong></div>
+        </div>
+      </div>
+      <div class="chart-stats" id="chart-stats"></div>
+    </div>
+  </div>
+
+  <!-- PREPAYMENT COMPARISON (shown only if prepayment > 0) -->
+  <div class="results-wrapper" id="prepayment-section" style="display:none;">
+    <div class="results-heading">
+      <span class="section-tag" style="color:rgb(141,15,214)">Prepayment Impact</span>
+      <h2>How Prepayment Saves You Money</h2>
+      <p class="results-sub">Comparison of your loan with and without the extra monthly payment.</p>
+    </div>
+    <div id="prepayment-cards" class="prepayment-cards"></div>
+  </div>
+
+  
+  <!-- AMORTISATION TABLE -->
+  <div class="results-wrapper" id="amort-section">
+    <div class="results-heading">
+      <span class="section-tag" style="color:rgb(141,15,214)">Schedule</span>
+      <h2>Amortisation Schedule</h2>
+      <p class="results-sub" id="amort-sub">Month-by-month breakdown of every payment — principal, interest and remaining balance.</p>
+    </div>
+
+    <!-- Year filter -->
+    <div class="year-filter" id="year-filter"></div>
+
+    <div class="table-wrap">
+      <table class="breakdown-table" id="amort-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Month</th>
+            <th>EMI Paid</th>
+            <th>Principal</th>
+            <th>Interest</th>
+            <th>Prepayment</th>
+            <th>Balance</th>
+            <th>Paid %</th>
+          </tr>
+        </thead>
+        <tbody id="amort-body"></tbody>
+      </table>
+    </div>
+
+    <div class="table-footer" id="table-footer"></div>
+  </div>
+
+</div><!-- end results -->
+
+<script>
+window.addEventListener("DOMContentLoaded", () => {
+  const user = JSON.parse(localStorage.getItem("finsightUser"));
+  const loginBtn    = document.getElementById("loginBtn");
+  const avatarBox   = document.getElementById("avatarBox");
+  const avatarLetter = document.getElementById("avatarLetter");
+  loginBtn.style.display  = "block";
+  avatarBox.style.display = "none";
+  if (user && user.loggedIn === true) {
+    loginBtn.style.display  = "none";
+    avatarBox.style.display = "flex";
+    avatarLetter.textContent = user.avatar;
+  }
+  const hamburger = document.getElementById("hamburger");
+  if (hamburger) {
+    hamburger.addEventListener("click", () => {
+      document.getElementById("nav-links").classList.toggle("show");
+      hamburger.classList.toggle("active");
+    });
+  }
+  // Default start date to current month
+  const now = new Date();
+  document.getElementById("start-date").value =
+    `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,"0")}`;
+  document.getElementById("tenure").value = 20;
+});
+function logout()     { localStorage.removeItem("finsightUser"); window.location.href = "login.html"; }
+function toggleMenu() {
+  const m = document.getElementById("logoutMenu");
+  m.style.display = m.style.display === "block" ? "none" : "block";
+}
+
+  
+</script>
+<script src="emi.js"></script>
+</body>
+</html>

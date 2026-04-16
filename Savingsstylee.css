@@ -1,0 +1,246 @@
+/* FINSIGHT - savingsStyle.css (Dynamic Monthly Logger) */
+
+/* ── BASIC RESET ── */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+font-family: Arial, Helvetica, sans-serif;
+background-color: ghostwhite;
+color: #1e2a38;
+min-height: 100vh;
+}
+
+/* ── NAVBAR ── */
+.navbar {
+position: fixed; top: 0; left: 0;
+width: 100%; height: 65px;
+display: flex; justify-content: space-between; align-items: center;
+padding: 0 40px;
+background-color: rgb(141, 15, 214);
+z-index: 1000;
+box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+.logo img { width: 160px; height: auto; }
+.navbar ul { list-style: none; display: flex; gap: 30px; align-items: center; }
+.navbar ul li a { text-decoration: none; color: white; font-size: 15px; font-weight: 500; transition: color 0.2s; }
+.navbar ul li a:hover { color: #ddd; }
+.login-btn { background-color: white; color: rgb(141,15,214) !important; padding: 8px 20px; border-radius: 25px; font-weight: 600 !important; }
+.login-btn:hover { background-color: rgb(237,233,255) !important; }
+
+/* ── PAGE HERO ── */
+.page-hero {
+background-color: rgb(141,15,214);
+color: white; text-align: center;
+padding: 100px 40px 50px 40px;
+}
+.section-tag {
+font-size: 13px; font-weight: 600; letter-spacing: 1.5px;
+text-transform: uppercase; color: rgba(255,255,255,0.75); margin-bottom: 12px;
+}
+.page-hero h1 { font-size: 38px; font-family: 'Cabin Sketch', cursive; margin-bottom: 14px; }
+.page-hero p {
+font-size: 16px; color: rgba(255,255,255,0.85); max-width: 560px;
+margin: 0 auto; line-height: 1.6; font-family: 'Times New Roman', Times, serif;
+}
+
+/* ── MAIN CONTENT ── */
+.main-content {
+display: block;
+padding: 40px 5%;
+max-width: 900px;
+margin: 0 auto;
+}
+
+/* ── FORM CARD ── */
+.form-card {
+background: white;
+border-radius: 20px;
+padding: 32px 28px;
+border: 1px solid rgba(141,15,214,0.12);
+box-shadow: 0 4px 20px rgba(141,15,214,0.08);
+width: 100%;
+}
+
+.form-card-header {
+margin-bottom: 28px;
+padding-bottom: 20px;
+border-bottom: 1.5px solid rgba(141,15,214,0.1);
+}
+.form-card-header h3 {
+font-size: 20px; color: #1e2a38;
+font-family: Cambria, Georgia, serif; margin-bottom: 6px; margin-top: 10px;
+}
+.form-card-header p { font-size: 14px; color: #8888aa; }
+
+.step-badge {
+display: inline-block;
+background: rgb(141,15,214); color: white;
+font-size: 11px; font-weight: 700; text-transform: uppercase;
+letter-spacing: 1px; padding: 4px 12px; border-radius: 20px;
+}
+
+/* ── TWO COL LAYOUT ── */
+.two-col {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 16px;
+}
+
+/* ── INPUT GROUPS ── */
+.input-group { margin-bottom: 18px; }
+.input-group label { display: block; font-size: 13px; font-weight: 600; color: #1e2a38; margin-bottom: 7px; }
+.input-group input, .input-group select {
+width: 100%; padding: 12px 16px;
+border: 1.5px solid #ddd; border-radius: 25px;
+font-size: 14px; color: #1e2a38; background-color: ghostwhite;
+outline: none; font-family: Arial, Helvetica, sans-serif;
+transition: border-color 0.2s, box-shadow 0.2s;
+}
+.input-group input:focus, .input-group select:focus {
+border-color: rgb(141,15,214);
+box-shadow: 0 0 0 3px rgba(141,15,214,0.08);
+background-color: white;
+}
+.input-hint { font-size: 12px; color: #8888aa; margin-top: 5px; padding-left: 6px; line-height: 1.4; }
+
+/* DROPDOWN */
+.input-group select {
+appearance: none; -webkit-appearance: none; -moz-appearance: none;
+background-image: url("data:image/svg+xml;utf8,<svg fill='%231e2a38' height='20' viewBox='0 0 24 24' width='20' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+background-repeat: no-repeat; background-position: right 16px center; background-size: 16px; cursor: pointer;
+}
+.input-group select:hover { border-color: rgb(141,15,214); }
+
+/* ── FORM DIVIDER ── */
+.form-divider {
+font-size: 12px; font-weight: 700; text-transform: uppercase;
+letter-spacing: 1px; color: rgb(141,15,214);
+border-top: 1.5px solid rgba(141,15,214,0.15);
+padding-top: 16px; margin: 24px 0 18px 0;
+}
+
+/* ── GOAL PILL ── */
+.goal-pill {
+display: flex; flex-wrap: wrap; gap: 8px;
+margin-bottom: 24px;
+}
+.pill {
+display: inline-block; padding: 5px 14px;
+border-radius: 20px; font-size: 12px; font-weight: 600;
+background: rgb(237,233,255); color: rgb(100,10,160);
+}
+.pill.purple { background: rgb(141,15,214); color: white; }
+.pill.green  { background: #dcfce7; color: #16a34a; }
+
+/* ── EXPENSE GRID ── */
+.expense-grid {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 10px;
+margin-bottom: 20px;
+}
+.expense-row {
+display: flex; align-items: center; gap: 10px;
+background: ghostwhite; border-radius: 12px; padding: 10px 14px;
+border: 1px solid rgba(141,15,214,0.08); transition: border-color 0.2s;
+}
+.expense-row:hover { border-color: rgba(141,15,214,0.25); background: rgb(250,248,255); }
+.expense-row span { font-size: 18px; flex-shrink: 0; width: 24px; text-align: center; }
+.expense-row label { flex: 1; font-size: 13px; color: #1e2a38; font-weight: 500; cursor: default; white-space: nowrap; }
+.expense-row input {
+width: 100px; padding: 7px 12px;
+border: 1.5px solid #ddd; border-radius: 20px;
+font-size: 13px; color: #1e2a38; text-align: right;
+background: white; outline: none;
+font-family: Arial, Helvetica, sans-serif;
+transition: border-color 0.2s;
+}
+/* Remove number spinners */
+.expense-row input::-webkit-outer-spin-button,
+.expense-row input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.expense-row input { -moz-appearance: textfield; }
+.expense-row input:focus { border-color: rgb(141,15,214); box-shadow: 0 0 0 3px rgba(141,15,214,0.08); }
+
+/* ── LIVE TOTAL BAR ── */
+.live-total-bar {
+display: grid; grid-template-columns: repeat(3, 1fr);
+gap: 12px; margin-bottom: 24px;
+background: rgb(237,233,255); border-radius: 14px; padding: 16px 20px;
+border: 1px solid rgba(141,15,214,0.2);
+}
+.live-total-bar > div { text-align: center; }
+.live-label { display: block; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: rgb(100,10,160); margin-bottom: 4px; }
+.live-value { font-size: 18px; font-weight: 700; color: #1e2a38; }
+.live-value.positive { color: #16a34a; }
+.live-value.negative { color: #dc2626; }
+
+/* ── BUTTONS ── */
+.btn-row { display: flex; gap: 12px; }
+.btn-calculate {
+flex: 1; padding: 14px;
+background-color: rgb(141,15,214); color: white;
+font-size: 15px; font-weight: 600; border: none; border-radius: 25px;
+cursor: pointer; transition: background-color 0.2s, transform 0.2s;
+font-family: Arial, Helvetica, sans-serif;
+}
+.btn-calculate:hover { background-color: rgb(100,10,160); transform: translateY(-2px); }
+.btn-reset {
+padding: 14px 28px;
+background-color: transparent; color: rgb(141,15,214);
+font-size: 15px; font-weight: 600;
+border: 2px solid rgb(141,15,214); border-radius: 25px;
+cursor: pointer; transition: background-color 0.2s, transform 0.2s;
+font-family: Arial, Helvetica, sans-serif;
+}
+.btn-reset:hover { background-color: rgb(237,233,255); transform: translateY(-2px); }
+
+/* ── AVATAR ── */
+#avatarLetter {
+width: 36px; height: 36px; border-radius: 50%;
+background: white; color: rgb(141,15,214);
+display: flex; align-items: center; justify-content: center;
+font-weight: 700; font-size: 14px; cursor: pointer;
+box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+#avatarBox { position: relative; display: none; }
+#avatarBox button {
+padding: 6px 14px; border-radius: 20px;
+border: 1px solid rgba(255,255,255,0.5);
+background: rgba(255,255,255,0.15); color: white;
+font-size: 13px; font-weight: 600; cursor: pointer;
+backdrop-filter: blur(4px); transition: all 0.2s;
+}
+#avatarBox button:hover { background: rgba(255,255,255,0.3); }
+#logoutMenu {
+position: absolute; top: 45px; right: 0;
+background: white; border-radius: 10px; padding: 8px;
+display: none; box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+}
+#logoutMenu button {
+background: none; border: none; padding: 6px 12px;
+cursor: pointer; color: #1e2a38;
+}
+#logoutMenu button:hover { background: rgb(237,233,255); }
+#loginBtn { display: block; }
+
+.back-btn {
+background: none;
+border: none;
+color: rgb(141,15,214);
+font-weight: 600;
+cursor: pointer;
+margin-bottom: 10px;
+}
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+.navbar ul { display: none; }
+.navbar { padding: 0 20px; }
+.page-hero { padding: 90px 24px 40px 24px; }
+.page-hero h1 { font-size: 28px; }
+.main-content { padding: 24px 4%; }
+.form-card { padding: 22px 16px; }
+.two-col { grid-template-columns: 1fr; }
+.expense-grid { grid-template-columns: 1fr; }
+.live-total-bar { grid-template-columns: 1fr; gap: 8px; }
+.btn-row { flex-direction: column; }
+}
